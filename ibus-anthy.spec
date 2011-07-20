@@ -5,7 +5,7 @@
 Summary:	The Anthy engine for IBus input platform
 Name:		ibus-anthy
 Version:	1.2.6
-Release:	0.1
+Release:	0.2
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://ibus.googlecode.com/files/%{name}-%{version}.tar.gz
@@ -25,6 +25,8 @@ Requires:	ibus >= 1.3.0
 Requires:	kasumi
 Requires:	python-pygtk-gtk >= 2.15.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_libexecdir	%{_libdir}/ibus
 
 %description
 The Anthy engine for IBus platform. It provides Japanese input method
@@ -64,6 +66,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS README
 %{py_sitedir}/anthy.py*
 %attr(755,root,root) %{py_sitedir}/_anthy.so
-%{_libdir}/ibus-*-anthy
+%{_libexecdir}/ibus-*-anthy
 %{_datadir}/ibus-anthy
 %{_datadir}/ibus/component/*
