@@ -1,11 +1,11 @@
 #
 # Conditional build:
-%bcond_without	bridge_hotkey		# disable the engine symbol & hotkeys
+%bcond_with	bridge_hotkey		# enable the engine hotkeys
 #
 Summary:	The Anthy engine for IBus input platform
 Name:		ibus-anthy
 Version:	1.2.6
-Release:	0.2
+Release:	0.3
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://ibus.googlecode.com/files/%{name}-%{version}.tar.gz
@@ -14,7 +14,7 @@ Patch1:		%{name}-xx-icon-symbol.patch
 URL:		http://code.google.com/p/ibus/
 BuildRequires:	anthy-devel
 BuildRequires:	gettext-devel
-%{?with_bridge_hotkey:BuildRequires:  ibus}
+BuildRequires:  ibus
 BuildRequires:	intltool
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
@@ -34,16 +34,12 @@ from libanthy.
 
 %prep
 %setup -q
-%{?with_bridge_hotkey:%patch1 -p1}
+%patch1 -p1
 
 %build
-%if %{with bridge_hotkey}
 %{__autoconf}
 %configure \
-	--with-hotkeys
-%else
-%configure
-%endif
+	%{?with_bridge_hotkey:--with-hotkeys}
 
 %{__make}
 
