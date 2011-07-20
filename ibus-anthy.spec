@@ -34,9 +34,7 @@ from libanthy.
 
 %prep
 %setup -q
-%if %{with bridge_hotkey}
-%patch1 -p1
-%endif
+%{?with_bridge_hotkey:%patch1 -p1}
 
 %build
 %if %{with bridge_hotkey}
