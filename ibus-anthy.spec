@@ -5,7 +5,7 @@
 Summary:	The Anthy engine for IBus input platform
 Name:		ibus-anthy
 Version:	1.2.6
-Release:	0.4
+Release:	1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://ibus.googlecode.com/files/%{name}-%{version}.tar.gz
