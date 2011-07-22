@@ -5,7 +5,7 @@
 Summary:	The Anthy engine for IBus input platform
 Name:		ibus-anthy
 Version:	1.2.6
-Release:	0.3
+Release:	0.4
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://ibus.googlecode.com/files/%{name}-%{version}.tar.gz
@@ -60,6 +60,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS README
 %{py_sitedir}/anthy.py*
 %attr(755,root,root) %{py_sitedir}/_anthy.so
-%{_libexecdir}/ibus-*-anthy
+%attr(755,root,root) %{_libexecdir}/ibus-*-anthy
 %{_datadir}/ibus-anthy
 %{_datadir}/ibus/component/*
