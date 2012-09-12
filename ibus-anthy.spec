@@ -28,7 +28,7 @@ Requires:	anthy
 Requires:	ibus >= 1.4.0
 Requires:	kasumi
 Requires:	python-ibus >= 1.4.0
-Requires:	python-pygtk-gtk >= 2.15.2
+Requires:	python-pygtk-gtk >= 2:2.15.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libexecdir	%{_libdir}/ibus
