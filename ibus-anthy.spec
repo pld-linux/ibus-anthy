@@ -1,12 +1,12 @@
 #
 # Conditional build:
-%bcond_with	bridge_hotkey		# enable the engine hotkeys
+%bcond_without	bridge_hotkey		# disable the engine hotkeys
 #
 Summary:	The Anthy engine for IBus input platform
 Summary(pl.UTF-8):	Silnik Anthy dla platformy wprowadzania znaków IBus
 Name:		ibus-anthy
 Version:	1.4.99.20121006
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Libraries
 #Source0Download: http://code.google.com/p/ibus/downloads/list
