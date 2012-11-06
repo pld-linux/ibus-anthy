@@ -6,7 +6,7 @@ Summary:	The Anthy engine for IBus input platform
 Summary(pl.UTF-8):	Silnik Anthy dla platformy wprowadzania znaków IBus
 Name:		ibus-anthy
 Version:	1.4.99.20121006
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Libraries
 #Source0Download: http://code.google.com/p/ibus/downloads/list
@@ -24,6 +24,8 @@ BuildRequires:	python-devel >= 1:2.5
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sed >= 4.0
 BuildRequires:	swig-python
+Requires(post,postun):	/sbin/ldconfig
+Requires(post,postun):	Gconf2
 Requires:	anthy
 Requires:	ibus >= 1.4.99
 Requires:	kasumi
