@@ -16,6 +16,8 @@ URL:		http://code.google.com/p/ibus/
 BuildRequires:	anthy-devel
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	gettext-devel >= 0.16.1
+BuildRequires:	glib2-devel >= 1:2.26.0
+BuildRequires:	gobject-introspection-devel >= 0.6.8
 BuildRequires:	ibus-devel >= 1.4.99
 BuildRequires:	intltool >= 0.35.0
 BuildRequires:	libstdc++-devel
@@ -27,6 +29,7 @@ BuildRequires:	swig-python
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	GConf2
 Requires:	anthy
+Requires:	glib2 >= 1:2.26.0
 Requires:	ibus >= 1.4.99
 Requires:	kasumi
 Requires:	python-ibus >= 1.4.99
@@ -44,15 +47,18 @@ Silnik Anthy dla platformy IBus. Udostępnia metodę wprowadzania znaków
 japońskich poprzez libanthy.
 
 %package devel
-Summary:	Development tools for ibus
+Summary:	Header files for Anthy GObject library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Anthy GObject
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	anthy-devel
-Requires:	glib2-devel
+Requires:	glib2-devel >= 1:2.26.0
 
 %description devel
-The ibus-anthy-devel package contains .so file and .gir files for
-developers.
+Header files for Anthy GObject library.
+
+%description devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki Anthy GObject.
 
 %prep
 %setup -q
@@ -97,14 +103,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libexecdir}/ibus-setup-anthy
 %{_datadir}/ibus-anthy
 %{_datadir}/ibus/component/anthy.xml
-%{_libdir}/girepository-1.0/Anthy-9000.typelib
 %attr(755,root,root) %{_libdir}/libanthygobject-1.0.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libanthygobject-1.0.so.5
+%{_libdir}/girepository-1.0/Anthy-9000.typelib
 %{_desktopdir}/ibus-setup-anthy.desktop
 %{_iconsdir}/hicolor/scalable/apps/ibus-anthy.svg
 
 %files devel
 %defattr(644,root,root,755)
-%{_datadir}/gir-1.0/Anthy*.gir
-%{_includedir}/ibus-anthy-1.0
 %attr(755,root,root) %{_libdir}/libanthygobject-1.0.so
+%{_includedir}/ibus-anthy-1.0
+%{_datadir}/gir-1.0/Anthy-9000.gir
