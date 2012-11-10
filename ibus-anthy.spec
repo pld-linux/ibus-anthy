@@ -6,7 +6,7 @@ Summary:	The Anthy engine for IBus input platform
 Summary(pl.UTF-8):	Silnik Anthy dla platformy wprowadzania znaków IBus
 Name:		ibus-anthy
 Version:	1.4.99.20121006
-Release:	4
+Release:	5
 License:	GPL v2+
 Group:		Libraries
 #Source0Download: http://code.google.com/p/ibus/downloads/list
@@ -28,8 +28,8 @@ BuildRequires:	sed >= 4.0
 BuildRequires:	swig-python
 Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	GConf2
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	anthy
-Requires:	glib2 >= 1:2.26.0
 Requires:	ibus >= 1.4.99
 Requires:	kasumi
 Requires:	python-ibus >= 1.4.99
@@ -46,11 +46,24 @@ from libanthy.
 Silnik Anthy dla platformy IBus. Udostępnia metodę wprowadzania znaków
 japońskich poprzez libanthy.
 
+%package libs
+Summary:	Shared Anthy GObject library
+Summary(pl.UTF-8):	Biblioteka współdzielona Anthy GObject
+Group:		Libraries
+Requires:	glib2 >= 1:2.26.0
+Conflicts:	ibus-anthy < 1.4.99.20121006-5
+
+%description libs
+Shared Anthy GObject library.
+
+%description libs -l pl.UTF-8
+Biblioteka współdzielona Anthy GObject.
+
 %package devel
 Summary:	Header files for Anthy GObject library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Anthy GObject
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	anthy-devel
 Requires:	glib2-devel >= 1:2.26.0
 
@@ -89,12 +102,13 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/ldconfig
 %update_icon_cache hicolor
 
 %postun
-/sbin/ldconfig
 %update_icon_cache hicolor
+
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -103,11 +117,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libexecdir}/ibus-setup-anthy
 %{_datadir}/ibus-anthy
 %{_datadir}/ibus/component/anthy.xml
+%{_desktopdir}/ibus-setup-anthy.desktop
+%{_iconsdir}/hicolor/scalable/apps/ibus-anthy.svg
+
+%files libs
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libanthygobject-1.0.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libanthygobject-1.0.so.5
 %{_libdir}/girepository-1.0/Anthy-9000.typelib
-%{_desktopdir}/ibus-setup-anthy.desktop
-%{_iconsdir}/hicolor/scalable/apps/ibus-anthy.svg
 
 %files devel
 %defattr(644,root,root,755)
