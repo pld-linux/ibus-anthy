@@ -82,7 +82,9 @@ Pliki nagłówkowe biblioteki Anthy GObject.
 %{__sed} -i -e 's,\$SYMBOL_TEST,exit(0),' configure.ac
 
 %build
+%{__aclocal}
 %{__autoconf}
+%{__automake}
 %configure \
 	--with-layout='default' \
 	%{?with_bridge_hotkey:--with-hotkeys}
