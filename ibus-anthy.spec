@@ -5,13 +5,13 @@
 Summary:	The Anthy engine for IBus input platform
 Summary(pl.UTF-8):	Silnik Anthy dla platformy wprowadzania znaków IBus
 Name:		ibus-anthy
-Version:	1.5.3
-Release:	2
+Version:	1.5.4
+Release:	1
 License:	GPL v2+
 Group:		Libraries
 #Source0Download: http://code.google.com/p/ibus/downloads/list
 Source0:	http://ibus.googlecode.com/files/%{name}-%{version}.tar.gz
-# Source0-md5:	ec8e7c499c80c0270be69d613dec4b87
+# Source0-md5:	50a4115ad9bf386daea1161eb0bf4435
 URL:		http://code.google.com/p/ibus/
 BuildRequires:	anthy-devel
 BuildRequires:	autoconf >= 2.50
