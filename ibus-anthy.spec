@@ -5,20 +5,20 @@
 Summary:	The Anthy engine for IBus input platform
 Summary(pl.UTF-8):	Silnik Anthy dla platformy wprowadzania znaków IBus
 Name:		ibus-anthy
-Version:	1.5.4
-Release:	2
+Version:	1.5.6
+Release:	1
 License:	GPL v2+
 Group:		Libraries
-#Source0Download: http://code.google.com/p/ibus/downloads/list
-Source0:	http://ibus.googlecode.com/files/%{name}-%{version}.tar.gz
-# Source0-md5:	50a4115ad9bf386daea1161eb0bf4435
-URL:		http://code.google.com/p/ibus/
+Source0:	https://github.com/ibus/ibus-anthy/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	50c8068d789a24c68619136835dcc36f
+URL:		https://github.com/fujiwarat/ibus-anthy/wiki
 BuildRequires:	anthy-devel
 BuildRequires:	autoconf >= 2.50
+BuildRequires:	automake >= 1:1.10
 BuildRequires:	gettext-devel >= 0.16.1
 BuildRequires:	glib2-devel >= 1:2.26.0
 BuildRequires:	gobject-introspection-devel >= 0.6.8
-BuildRequires:	ibus-devel >= 1.4.99
+BuildRequires:	ibus-devel >= 1.5
 BuildRequires:	intltool >= 0.41.1
 BuildRequires:	libstdc++-devel
 BuildRequires:	pkgconfig
@@ -30,9 +30,9 @@ Requires(post,postun):	/sbin/ldconfig
 Requires(post,postun):	GConf2
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	anthy
-Requires:	ibus >= 1.4.99
+Requires:	ibus >= 1.5
 Requires:	kasumi
-Requires:	python-ibus >= 1.4.99
+Requires:	python-ibus >= 1.5
 Requires:	python-pygtk-gtk >= 2:2.15.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -77,13 +77,20 @@ Pliki nagłówkowe biblioteki Anthy GObject.
 %setup -q
 
 # ibus 1.4.x has symbol attr in EngineDesc;
-# ibus 1.4.99 (1.5) has symbol attr in IBus.Property
+# ibus 1.4.99/1.5+ has symbol attr in IBus.Property
 # hardcode it so python-ibus is not BRed here
 %{__sed} -i -e 's,\$SYMBOL_TEST,exit(0),' configure.ac
 
+# gettextize will add it again
+%{__sed} -i -e '/AC_CONFIG_FILES/s@ po/Makefile\.in@@' configure.ac
+
 %build
+%{__gettextize}
+%{__intltoolize}
+%{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__autoheader}
 %{__automake}
 %configure \
 	--with-layout='default' \
