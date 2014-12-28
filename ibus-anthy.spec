@@ -15,7 +15,7 @@ URL:		https://github.com/fujiwarat/ibus-anthy/wiki
 BuildRequires:	anthy-devel
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1:1.10
-BuildRequires:	gettext-devel >= 0.16.1
+BuildRequires:	gettext-tools >= 0.16.1
 BuildRequires:	glib2-devel >= 1:2.26.0
 BuildRequires:	gobject-introspection-devel >= 0.6.8
 BuildRequires:	ibus-devel >= 1.5
