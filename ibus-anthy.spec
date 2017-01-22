@@ -1,17 +1,18 @@
 #
 # Conditional build:
-%bcond_without	bridge_hotkey		# disable the engine hotkeys
+%bcond_without	bridge_hotkey	# disable the engine hotkeys
+%bcond_without	swig		# swig based python-anthy library
 #
 Summary:	The Anthy engine for IBus input platform
 Summary(pl.UTF-8):	Silnik Anthy dla platformy wprowadzania znaków IBus
 Name:		ibus-anthy
-Version:	1.5.8
+Version:	1.5.9
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 #Source0Download: https://github.com/ibus/ibus-anthy/releases
 Source0:	https://github.com/ibus/ibus-anthy/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	15c7cf642887fa3dc946f01c2750e948
+# Source0-md5:	57f560e080b0d78b581493535dda78ec
 URL:		https://github.com/fujiwarat/ibus-anthy/wiki
 BuildRequires:	anthy-devel
 BuildRequires:	autoconf >= 2.50
@@ -26,15 +27,14 @@ BuildRequires:	pkgconfig
 BuildRequires:	python-devel >= 1:2.5
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sed >= 4.0
-BuildRequires:	swig-python
-Requires(post,postun):	/sbin/ldconfig
-Requires(post,postun):	GConf2
+%{?with_swig:BuildRequires:	swig-python}
+Requires(post,postun):	gtk-update-icon-cache
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	anthy
+Requires:	hicolor-icon-theme
 Requires:	ibus >= 1.5
 Requires:	kasumi
 Requires:	python-ibus >= 1.5
-Requires:	python-pygtk-gtk >= 2:2.15.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libexecdir	%{_libdir}/ibus
@@ -74,6 +74,18 @@ Header files for Anthy GObject library.
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Anthy GObject.
 
+%package -n python-anthy
+Summary:	SWIG based Python interface to Anthy library
+Summary(pl.UTF-8):	Oparty na SWIG-u pythonowy interfejs do biblioteki Anthy
+Group:		Libraries/Python
+Requires:	python-libs >= 1:2.5
+
+%description -n python-anthy
+SWIG based Python interface to Anthy library.
+
+%description -n python-anthy -l pl.UTF-8
+Oparty na SWIG-u pythonowy interfejs do biblioteki Anthy.
+
 %prep
 %setup -q
 
@@ -94,6 +106,7 @@ Pliki nagłówkowe biblioteki Anthy GObject.
 %{__autoheader}
 %{__automake}
 %configure \
+	%{?with_swig:--enable-pygtk2-anthy} \
 	--with-layout='default' \
 	%{?with_bridge_hotkey:--with-hotkeys}
 
@@ -105,6 +118,12 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
+%if %{with swig}
+%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/_anthy.la
+%py_comp $RPM_BUILD_ROOT%{py_sitedir}
+%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
+%py_postclean
+%endif
 
 %find_lang %{name}
 
@@ -122,10 +141,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README
+%doc AUTHORS README
 %attr(755,root,root) %{_libexecdir}/ibus-engine-anthy
 %attr(755,root,root) %{_libexecdir}/ibus-setup-anthy
-%{_datadir}/appdata/anthy.appdata.xml
+%{_datadir}/appdata/ibus-anthy.appdata.xml
 %{_datadir}/ibus-anthy
 %{_datadir}/ibus/component/anthy.xml
 %{_desktopdir}/ibus-setup-anthy.desktop
@@ -142,3 +161,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libanthygobject-1.0.so
 %{_includedir}/ibus-anthy-1.0
 %{_datadir}/gir-1.0/Anthy-9000.gir
+
+%if %{with swig}
+%files -n python-anthy
+%defattr(644,root,root,755)
+%attr(755,root,root) %{py_sitedir}/_anthy.so
+%{py_sitedir}/anthy.py[co]
+%endif
