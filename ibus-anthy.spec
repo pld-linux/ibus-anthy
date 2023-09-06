@@ -6,13 +6,13 @@
 Summary:	The Anthy engine for IBus input platform
 Summary(pl.UTF-8):	Silnik Anthy dla platformy wprowadzania znaków IBus
 Name:		ibus-anthy
-Version:	1.5.11
+Version:	1.5.15
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 #Source0Download: https://github.com/ibus/ibus-anthy/releases
 Source0:	https://github.com/ibus/ibus-anthy/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	70d90438a88cd3baf7712b697ac43852
+# Source0-md5:	032591a1129a114de314c817eaf609c2
 URL:		https://github.com/fujiwarat/ibus-anthy/wiki
 BuildRequires:	anthy-unicode-devel
 BuildRequires:	autoconf >= 2.50
@@ -24,7 +24,7 @@ BuildRequires:	ibus-devel >= 1.5.11
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 2:2
 BuildRequires:	pkgconfig
-BuildRequires:	python-devel >= 1:2.5
+BuildRequires:	python3-devel >= 1:3.6
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	sed >= 4.0
 %{?with_swig:BuildRequires:	swig-python}
@@ -35,7 +35,7 @@ Requires:	anthy-unicode
 Requires:	hicolor-icon-theme
 Requires:	ibus >= 1.5.11
 Requires:	kasumi
-Requires:	python-ibus >= 1.5
+Requires:	python3-ibus >= 1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libexecdir	%{_libdir}/ibus
@@ -75,16 +75,17 @@ Header files for Anthy GObject library.
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki Anthy GObject.
 
-%package -n python-anthy
+%package -n python3-anthy
 Summary:	SWIG based Python interface to Anthy library
 Summary(pl.UTF-8):	Oparty na SWIG-u pythonowy interfejs do biblioteki Anthy
 Group:		Libraries/Python
-Requires:	python-libs >= 1:2.5
+Requires:	python3-libs >= 1:2.5
+Obsoletes:	python-anthy < 1.5.15
 
-%description -n python-anthy
-SWIG based Python interface to Anthy library.
+%description -n python3-anthy
+SWIG based Python 3 interface to Anthy library.
 
-%description -n python-anthy -l pl.UTF-8
+%description -n python3-anthy -l pl.UTF-8
 Oparty na SWIG-u pythonowy interfejs do biblioteki Anthy.
 
 %prep
@@ -106,6 +107,7 @@ Oparty na SWIG-u pythonowy interfejs do biblioteki Anthy.
 %{__autoheader}
 %{__automake}
 %configure \
+	--with-python=%{__python3} \
 	%{?with_swig:--enable-pygtk2-anthy} \
 	--with-layout='default' \
 	%{?with_bridge_hotkey:--with-hotkeys}
@@ -119,10 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
 %if %{with swig}
-%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/_anthy.la
-%py_comp $RPM_BUILD_ROOT%{py_sitedir}
-%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
-%py_postclean
+%{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/_anthy.la
+%py3_comp $RPM_BUILD_ROOT%{py3_sitedir}
 %endif
 
 %find_lang %{name}
@@ -166,8 +166,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gir-1.0/Anthy-9000.gir
 
 %if %{with swig}
-%files -n python-anthy
+%files -n python3-anthy
 %defattr(644,root,root,755)
-%attr(755,root,root) %{py_sitedir}/_anthy.so
-%{py_sitedir}/anthy.py[co]
+%attr(755,root,root) %{py3_sitedir}/_anthy.so
+%{py3_sitedir}/__pycache__
+%{py3_sitedir}/anthy.py
 %endif
