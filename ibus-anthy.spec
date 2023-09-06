@@ -20,7 +20,7 @@ BuildRequires:	automake >= 1:1.10
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	glib2-devel >= 1:2.26.0
 BuildRequires:	gobject-introspection-devel >= 0.6.8
-BuildRequires:	ibus-devel >= 1.5.11
+BuildRequires:	ibus-devel >= 1.5.28
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 2:2
 BuildRequires:	pkgconfig
@@ -33,7 +33,7 @@ Requires(post,postun):	gtk-update-icon-cache
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	anthy-unicode
 Requires:	hicolor-icon-theme
-Requires:	ibus >= 1.5.11
+Requires:	ibus >= 1.5.28
 Requires:	kasumi
 Requires:	python3-ibus >= 1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -79,7 +79,7 @@ Pliki nagłówkowe biblioteki Anthy GObject.
 Summary:	SWIG based Python interface to Anthy library
 Summary(pl.UTF-8):	Oparty na SWIG-u pythonowy interfejs do biblioteki Anthy
 Group:		Libraries/Python
-Requires:	python3-libs >= 1:2.5
+Requires:	python3-libs >= 1:3.6
 Obsoletes:	python-anthy < 1.5.15
 
 %description -n python3-anthy
