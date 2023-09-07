@@ -1,13 +1,13 @@
 #
 # Conditional build:
-%bcond_without	bridge_hotkey	# disable the engine hotkeys
+%bcond_without	bridge_hotkey	# engine hotkeys
 %bcond_without	swig		# swig based python-anthy library
 #
 Summary:	The Anthy engine for IBus input platform
 Summary(pl.UTF-8):	Silnik Anthy dla platformy wprowadzania znaków IBus
 Name:		ibus-anthy
 Version:	1.5.15
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Libraries
 #Source0Download: https://github.com/ibus/ibus-anthy/releases
@@ -124,6 +124,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/_anthy.la
 %py3_comp $RPM_BUILD_ROOT%{py3_sitedir}
 %endif
+
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{pt_PT,pt}
 
 %find_lang %{name}
 
