@@ -1,0 +1,22 @@
+--- ibus-anthy-1.5.17/engine/python3/anthy.i.orig	2025-02-18 15:19:37.000000000 +0100
++++ ibus-anthy-1.5.17/engine/python3/anthy.i	2025-04-05 13:51:37.903433638 +0200
+@@ -25,6 +25,8 @@
+ %{
+  /* Put header files here or function declarations like below */
+ #include <anthy/anthy.h>
++extern void anthy_init_personality(void);
++extern int anthy_do_set_personality(const char *id);
+ %}
+ 
+ %init %{
+@@ -110,8 +112,8 @@ struct anthy_context {};
+         return anthy_set_reconversion_mode (self, mode);
+     }
+ 
+-    int init_personality (void) {
+-        return anthy_init_personality ();
++    void init_personality (void) {
++        anthy_init_personality ();
+     }
+ 
+     int do_set_personality (const char *id) {

@@ -7,12 +7,13 @@ Summary:	The Anthy engine for IBus input platform
 Summary(pl.UTF-8):	Silnik Anthy dla platformy wprowadzania znaków IBus
 Name:		ibus-anthy
 Version:	1.5.17
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Libraries
 #Source0Download: https://github.com/ibus/ibus-anthy/releases
 Source0:	https://github.com/ibus/ibus-anthy/releases/download/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	10788971d7776189bc96d48d4598d08a
+Patch0:		%{name}-proto.patch
 URL:		https://github.com/fujiwarat/ibus-anthy/wiki
 BuildRequires:	anthy-unicode-devel
 BuildRequires:	autoconf >= 2.50
@@ -25,8 +26,9 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 2:2
 BuildRequires:	pkgconfig
 BuildRequires:	python3-devel >= 1:3.6
+BuildRequires:	python3-ibus >= 1.5.28
+BuildRequires:	python3-pygobject3
 BuildRequires:	rpmbuild(macros) >= 1.219
-BuildRequires:	sed >= 4.0
 %{?with_swig:BuildRequires:	swig-python}
 Requires(post,postun):	glib2-devel >= 1:2.26.0
 Requires(post,postun):	gtk-update-icon-cache
@@ -90,19 +92,12 @@ Oparty na SWIG-u pythonowy interfejs do biblioteki Anthy.
 
 %prep
 %setup -q
-
-# ibus 1.4.x has symbol attr in EngineDesc;
-# ibus 1.4.99/1.5+ has symbol attr in IBus.Property
-# hardcode it so python-ibus is not BRed here
-%{__sed} -i -e 's,\$SYMBOL_TEST,exit(0),' configure.ac
-
-# gettextize will add it again
-#%{__sed} -i -e '/AC_CONFIG_FILES/s@ po/Makefile\.in@@' configure.ac
+%patch -P0 -p1
 
 %build
 %{__gettextize}
 %{__libtoolize}
-%{__aclocal}
+%{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
@@ -116,6 +111,7 @@ Oparty na SWIG-u pythonowy interfejs do biblioteki Anthy.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
